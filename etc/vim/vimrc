@@ -1,0 +1,55 @@
+" VIM FTW
+set nocompatible
+
+" the beautiful infinite red scheme
+" get it while it's black: http://blog.infinitered.com/entries/show/8
+colorscheme ir_black
+
+" look at all the pretty colours
+syntax enable
+
+" ruby coding style
+autocmd FileType * set tabstop=2|set shiftwidth=2|set expandtab
+
+" coding style according to PEP8 Style Guide for Python Code
+" available in http://www.python.org/dev/peps/pep-0008/
+autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+
+" default style is .py
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" nu-di-ty
+set nu
+
+" Run Ruby unit tests with gT (for all) or gt (only test under
+" cursor) in command mode (inspired by TextMate)
+augroup RubyTests
+  au!
+  autocmd BufRead,BufNewFile *_test.rb,test_*.rb
+    \ :nmap gt V:<C-U>!$HOME/.vim/bin/ruby-run-focused-unit-test 
+    \ % <C-R>=line("'<")<CR>p <CR>|
+    \ :nmap gT :<C-U>!ruby %<CR>|
+    \ :nmap <C-T> :<C-U>!rake test RAILS_ENV=test<CR>
+augroup END
+
+set hlsearch
+set incsearch
+
+" enable completion for Python
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+
+" Ctrl+R to run Python and Ruby files (credits TextMate)
+autocmd FileType python map <C-R> :!python %<CR>
+autocmd FileType ruby map <C-R> :!ruby %<CR>
+
+" Ctrl+C, Ctrl+V and Ctrl+X (do i hear heresy?)
+nmap <C-V> "+gP
+imap <C-V> <ESC><C-V>i
+vmap <C-C> "+y 
+vmap <C-X> "+d 
+
+" @todo: find a way to switch to regular editor mode (yeah Notepad-like)
+" so I can do some decent pair-programming without constantly having to
+" switch to a lesser editor
